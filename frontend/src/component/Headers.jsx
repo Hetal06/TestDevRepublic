@@ -1,28 +1,37 @@
 import React from "react";
 import { LinkContainer } from "react-router-bootstrap";
-import { Container, Navbar, Nav } from "react-bootstrap";
+import { Container, Navbar, Nav, Badge, NavDropdown } from "react-bootstrap";
 import { FaShoppingCart, FaUser } from "react-icons/fa";
 import logo from "../assets/images/logo/logo.png";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Headers = () => {
+  const { cartItems } = useSelector((state) => state.cart);
+
   return (
     <header>
       <Navbar bg="dark" variant="dark" expand="md" collapseOnSelect>
         <Container>
-          <Navbar.Brand>
-            <img src={logo} alt="artCreation" className="logo-img" /> Art
-            Creation
-          </Navbar.Brand>
-
+          <LinkContainer to="/profile">
+            <Navbar.Brand>
+              <img src={logo} alt="artCreation" className="logo-img" /> Art
+              Creation
+            </Navbar.Brand>
+          </LinkContainer>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
-              <Nav.Link>
-                <FaShoppingCart /> Cart
-              </Nav.Link>
-              <LinkContainer to={"/login"}>
+              <LinkContainer to={"/cart"}>
                 <Nav.Link>
-                  <FaUser /> SignIn
+                  <FaShoppingCart /> Cart
+                  {cartItems.length > 0 ? (
+                    <Badge pill bg="success" style={{ marginLeft: "5px" }}>
+                      {cartItems.reduce((acc, cur) => acc + cur.qty, 0)}
+                    </Badge>
+                  ) : (
+                    ""
+                  )}
                 </Nav.Link>
               </LinkContainer>
             </Nav>

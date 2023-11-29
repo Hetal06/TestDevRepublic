@@ -10,9 +10,12 @@ import {
   ListGroupItem,
   Row,
 } from "react-bootstrap";
+
 import { useGetProductDetailsQuery } from "../slices/productSlice";
+
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { addToCart } from "../slices/cartSlice";
 import Loader from "../component/Loader";
 import Message from "../component/Message";
 
@@ -28,6 +31,16 @@ const ProductScreen = () => {
     isLoading,
     error,
   } = useGetProductDetailsQuery(productId);
+
+  const addToCartHandler = () => {
+    dispatch(
+      addToCart({
+        ...product,
+        qty,
+      })
+    );
+    navigate("/cart");
+  };
 
   return (
     <>
@@ -102,6 +115,16 @@ const ProductScreen = () => {
                     </Row>
                   </ListGroup.Item>
                 )}
+                <ListGroupItem>
+                  <Button
+                    className="btn-block"
+                    type="button"
+                    disabled={product.countInStock === 0}
+                    onClick={addToCartHandler}>
+                    {" "}
+                    Add To Cart
+                  </Button>
+                </ListGroupItem>
               </ListGroup>
             </Card>
           </Col>
