@@ -5,7 +5,6 @@ import Product from "../modals/productModal.js";
 // @route Get /api/products
 //@access public
 const getProducts = asyncHandler(async (req, res) => {
-  console.log("call api get all");
   const products = await Product.find({});
   res.json(products);
 });
