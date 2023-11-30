@@ -30,10 +30,7 @@ const Headers = () => {
       <Navbar bg="dark" variant="dark" expand="md" collapseOnSelect>
         <Container>
           <LinkContainer to="/">
-            <Navbar.Brand>
-              <img src={logo} alt="artCreation" className="logo-img" /> Art
-              Creation
-            </Navbar.Brand>
+            <Navbar.Brand>Ecommerce Site</Navbar.Brand>
           </LinkContainer>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
