@@ -2,11 +2,11 @@ import mongoose from "mongoose";
 import color from "colors";
 import dotenv from "dotenv";
 import users from "./data/user.js";
-import products from "../Backend/data/product.js";
+import products from "./data/product.js";
 import connectDB from "./config/db.js";
-import Order from "./modal/orderModal.js";
-import Product from "./modal/productModal.js";
-import User from "./modal/userModal.js";
+import Order from "./modals/orderModal.js";
+import Product from "./modals/productModal.js";
+import User from "./modals/userModal.js";
 
 dotenv.config();
 

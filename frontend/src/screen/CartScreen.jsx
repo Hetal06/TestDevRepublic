@@ -1,16 +1,7 @@
 import React from "react";
-import {
-  Button,
-  Card,
-  Col,
-  Form,
-  Image,
-  ListGroup,
-  Row,
-} from "react-bootstrap";
+import { Button, Card, Col, Image, ListGroup, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
-
 import { FaTrash } from "react-icons/fa";
 import { addToCart, removeFromCart } from "../slices/cartSlice";
 import Message from "../component/Message";
@@ -52,18 +43,21 @@ function CartScreen() {
                   </Col>
                   <Col md={2}>${item.price}</Col>
                   <Col md={2}>
-                    <Form.Control
-                      as="select"
-                      value={item.qty}
-                      onChange={(e) =>
-                        addToCartHandler(item, Number(e.target.value))
-                      }>
-                      {[...Array(item.countInStock).keys()].map((x) => (
-                        <option key={x + 1} value={x + 1}>
-                          {x + 1}
-                        </option>
-                      ))}
-                    </Form.Control>
+                    <div className=" align-items-center">
+                      <Button
+                        variant="light"
+                        onClick={() => addToCartHandler(item, item.qty - 1)}
+                        disabled={item.qty <= 1}>
+                        -
+                      </Button>
+                      <span className="mx-2">{item.qty}</span>
+                      <Button
+                        variant="light"
+                        onClick={() => addToCartHandler(item, item.qty + 1)}
+                        disabled={item.qty >= item.countInStock}>
+                        +
+                      </Button>
+                    </div>
                   </Col>
                   <Col md={2}>
                     <Button

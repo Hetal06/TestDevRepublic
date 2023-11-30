@@ -5,15 +5,31 @@ import { FaShoppingCart, FaUser } from "react-icons/fa";
 import logo from "../assets/images/logo/logo.png";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useLogoutMutation } from "../slices/usersApiSlice";
+import { logout } from "../slices/authSlices";
 
 const Headers = () => {
   const { cartItems } = useSelector((state) => state.cart);
+  const { userInfo } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [LogoutApiCall] = useLogoutMutation();
+
+  const handleLogout = async () => {
+    try {
+      await LogoutApiCall().unwrap();
+      dispatch(logout());
+      navigate(`/login`);
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
 
   return (
     <header>
       <Navbar bg="dark" variant="dark" expand="md" collapseOnSelect>
         <Container>
-          <LinkContainer to="/profile">
+          <LinkContainer to="/">
             <Navbar.Brand>
               <img src={logo} alt="artCreation" className="logo-img" /> Art
               Creation
@@ -34,6 +50,21 @@ const Headers = () => {
                   )}
                 </Nav.Link>
               </LinkContainer>
+              {userInfo ? (
+                <NavDropdown title={userInfo.name} id="username">
+                  <NavDropdown.Item onClick={handleLogout}>
+                    Logout
+                  </NavDropdown.Item>
+                </NavDropdown>
+              ) : (
+                <>
+                  <LinkContainer to={"/login"}>
+                    <Nav.Link>
+                      <FaUser /> SignIn
+                    </Nav.Link>
+                  </LinkContainer>
+                </>
+              )}
             </Nav>
           </Navbar.Collapse>
         </Container>

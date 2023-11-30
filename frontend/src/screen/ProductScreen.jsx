@@ -101,20 +101,26 @@ const ProductScreen = () => {
                     <Row>
                       <Col>Qty</Col>
                       <Col>
-                        <Form.Control
-                          as="select"
-                          value={qty}
-                          onChange={(e) => setQty(Number(e.target.value))}>
-                          {[...Array(product.countInStock).keys()].map((x) => (
-                            <option key={x + 1} value={x + 1}>
-                              {x + 1}
-                            </option>
-                          ))}
-                        </Form.Control>
+                        <div className="d-flex align-items-center">
+                          <Button
+                            variant="light"
+                            onClick={() => setQty(qty - 1)}
+                            disabled={qty <= 1}>
+                            -
+                          </Button>
+                          <span className="mx-2">{qty}</span>
+                          <Button
+                            variant="light"
+                            onClick={() => setQty(qty + 1)}
+                            disabled={qty >= product.countInStock}>
+                            +
+                          </Button>
+                        </div>
                       </Col>
                     </Row>
                   </ListGroup.Item>
                 )}
+
                 <ListGroupItem>
                   <Button
                     className="btn-block"
