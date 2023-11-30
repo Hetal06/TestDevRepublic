@@ -5,6 +5,7 @@ import Product from "../modals/productModal.js";
 // @route Get /api/products
 //@access public
 const getProducts = asyncHandler(async (req, res) => {
+  console.log("call api get all");
   const products = await Product.find({});
   res.json(products);
 });
@@ -13,6 +14,7 @@ const getProducts = asyncHandler(async (req, res) => {
 // @route Get /api/products/:id
 //@access public
 const getProductById = asyncHandler(async (req, res) => {
+  console.log("call api", req.params.id);
   const product = await Product.findById(req.params.id);
   if (product) {
     return res.json(product);
@@ -21,4 +23,31 @@ const getProductById = asyncHandler(async (req, res) => {
   throw new Error("Product not found");
 });
 
-export { getProductById, getProducts };
+// @desc Filter by using Category and Price
+// @route Get /api/products/:filter
+//@access public
+const getProductByFilter = asyncHandler(async (req, res) => {
+  const { category, price } = req.params;
+
+  // Construct a filter object based on the provided parameters
+  const filter = {};
+
+  if (category) {
+    filter.category = category;
+  }
+
+  console.log("filter", filter);
+
+  if (price) {
+    // Assuming price is a range (e.g., 0-100)
+    const [minPrice, maxPrice] = price.split("-");
+    filter.price = { $gte: minPrice, $lte: maxPrice };
+  }
+
+  // Use the filter object to query the database
+  const products = await Product.find(filter);
+
+  res.json(products);
+});
+
+export { getProductById, getProducts, getProductByFilter };
